@@ -1,0 +1,10 @@
+build/
+*.pyc
+*~.nib/
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.xcworkspace
+*.xcuserdatad
+.DS_Store

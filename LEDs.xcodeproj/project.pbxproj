@@ -18,6 +18,9 @@
 		2A0197251695F1760063F41E /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0197241695F1760063F41E /* CoreVideo.framework */; };
 		2A0197271695F17D0063F41E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0197261695F17D0063F41E /* CoreMedia.framework */; };
 		2A01973C16982F6B0063F41E /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A01973B16982F6B0063F41E /* point.png */; };
+		2A90768F169852EF00702490 /* DKSerialPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A90768E169852EF00702490 /* DKSerialPort.m */; };
+		2A9076941698547500702490 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A9076931698547500702490 /* IOKit.framework */; };
+		2A9076951698548E00702490 /* ArduinoDioderCommunicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A9076921698539F00702490 /* ArduinoDioderCommunicationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,11 @@
 		2A0197241695F1760063F41E /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		2A0197261695F17D0063F41E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		2A01973B16982F6B0063F41E /* point.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = point.png; sourceTree = "<group>"; };
+		2A90768D169852EF00702490 /* DKSerialPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSerialPort.h; sourceTree = "<group>"; };
+		2A90768E169852EF00702490 /* DKSerialPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSerialPort.m; sourceTree = "<group>"; };
+		2A9076911698539F00702490 /* ArduinoDioderCommunicationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArduinoDioderCommunicationController.h; sourceTree = "<group>"; };
+		2A9076921698539F00702490 /* ArduinoDioderCommunicationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArduinoDioderCommunicationController.m; sourceTree = "<group>"; };
+		2A9076931698547500702490 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A9076941698547500702490 /* IOKit.framework in Frameworks */,
 				2A0197271695F17D0063F41E /* CoreMedia.framework in Frameworks */,
 				2A0197251695F1760063F41E /* CoreVideo.framework in Frameworks */,
 				2A0197231695F1710063F41E /* AVFoundation.framework in Frameworks */,
@@ -77,6 +86,7 @@
 		2A0197011695EC230063F41E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A9076931698547500702490 /* IOKit.framework */,
 				2A0197021695EC230063F41E /* Cocoa.framework */,
 				2A0197261695F17D0063F41E /* CoreMedia.framework */,
 				2A0197241695F1760063F41E /* CoreVideo.framework */,
@@ -99,7 +109,10 @@
 		2A0197081695EC230063F41E /* LEDs */ = {
 			isa = PBXGroup;
 			children = (
+				2A90768C169852EF00702490 /* DKSerialPort */,
 				2A01973B16982F6B0063F41E /* point.png */,
+				2A9076911698539F00702490 /* ArduinoDioderCommunicationController.h */,
+				2A9076921698539F00702490 /* ArduinoDioderCommunicationController.m */,
 				2A01971F1695F14C0063F41E /* ACScreenSampler.h */,
 				2A0197201695F14C0063F41E /* ACScreenSampler.m */,
 				2A0197141695EC230063F41E /* ACAppDelegate.h */,
@@ -121,6 +134,16 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		2A90768C169852EF00702490 /* DKSerialPort */ = {
+			isa = PBXGroup;
+			children = (
+				2A90768D169852EF00702490 /* DKSerialPort.h */,
+				2A90768E169852EF00702490 /* DKSerialPort.m */,
+			);
+			name = DKSerialPort;
+			path = Vendor/DKSerialPort;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -191,6 +214,8 @@
 				2A01970F1695EC230063F41E /* main.m in Sources */,
 				2A0197161695EC230063F41E /* ACAppDelegate.m in Sources */,
 				2A0197211695F14C0063F41E /* ACScreenSampler.m in Sources */,
+				2A90768F169852EF00702490 /* DKSerialPort.m in Sources */,
+				2A9076951698548E00702490 /* ArduinoDioderCommunicationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

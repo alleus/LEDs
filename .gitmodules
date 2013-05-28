@@ -1,0 +1,3 @@
+[submodule "Vendor/DKSerialPort"]
+	path = Vendor/DKSerialPort
+	url = https://github.com/iKenndac/DKSerialPort.git

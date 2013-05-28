@@ -8,12 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ACScreenSampler.h"
+#import "ArduinoDioderCommunicationController.h"
 
 @interface ACAppDelegate : NSObject <NSApplicationDelegate, ACScreenSamplerDelegate>
 
 @property (nonatomic, strong) ACScreenSampler *screenSampler;
 
 @property (assign) IBOutlet NSWindow *window;
+
+@property (nonatomic, strong) NSArray *ports;
+@property (nonatomic, strong) ArduinoDioderCommunicationController *commsController;
 
 @property (assign) IBOutlet NSView *channel1Preview;
 @property (assign) IBOutlet NSView *channel2Preview;

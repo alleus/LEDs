@@ -16,14 +16,37 @@
 
 @implementation ACAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	[[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(portsChanged:)
+                                                 name:DKSerialPortsDidChangeNotification
+                                               object:nil];
+    
+    [self portsChanged:nil];
+	
+	self.commsController = [[ArduinoDioderCommunicationController alloc] init];
+	
 	self.screenSampler = [[ACScreenSampler alloc] init];
 	self.screenSampler.delegate = self;
 	
 	[self prepareUserDefaults];
 	
 	[self setupScreenSampler:nil];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification {
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:DKSerialPortsDidChangeNotification
+                                                  object:nil];
+    self.commsController = nil;
+	self.ports = nil;
+	self.screenSampler = nil;
+}
+
+-(void)portsChanged:(NSNotification *)aNotification {
+    self.ports = [[DKSerialPort availableSerialPorts] sortedArrayUsingComparator:^(id a, id b) {
+        return [[a name] caseInsensitiveCompare:[b name]];
+    }];
 }
 
 - (void)setupScreenSampler:(id)sender {
@@ -113,6 +136,8 @@
 }
 
 - (void)screenSampler:(ACScreenSampler *)screenSampler didSampleColors:(NSArray *)colors {
+	[self.commsController pushColorsToChannels:colors withDuration:0.0];
+	
 	if (self.enableOutputPreview) {
 		NSUInteger i, count = [colors count];
 		for (i = 0; i < count; i++) {

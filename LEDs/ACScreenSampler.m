@@ -288,22 +288,41 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 	// Sample colors
 	NSMutableArray *colors = [NSMutableArray arrayWithCapacity:[self.capturePoints count]];
 	
+	NSUInteger totalAverageSamples = 1 + (2 * self.averageSamples);
+	float halfAverageSampleSize = self.averageSampleSize / 2;
+	float partAverageSampleSize = self.averageSampleSize / totalAverageSamples;
+	
 	for (NSValue *value in self.letterboxCompensatedCapturePoints) {
-		CGPoint point = [value pointValue];
-		CGPoint translatedPoint = CGPointMake(point.x * self.captureSize.width, point.y * self.captureSize.height);
+		float red = 0.0;
+		float green = 0.0;
+		float blue = 0.0;
 		
-		// Find all components
-		uint8_t *y = baseAddress + yOffset + ((int)translatedPoint.y * yPitch) + (int)translatedPoint.x;
-        uint8_t *cb = baseAddress + cbCrOffset + (((int)translatedPoint.y >> 1) * cbCrPitch) + ((int)translatedPoint.x & ~1);
-        uint8_t *cr = baseAddress + cbCrOffset + (((int)translatedPoint.y >> 1) * cbCrPitch) + ((int)translatedPoint.x | 1);
-		
-		// Convert to RGB
-		float red = MAX(0.0, MIN(255.0, *y + 1.40200 * (*cr - 0x80)));
-		float green = MAX(0.0, MIN(255.0, *y - 0.34414 * (*cb - 0x80) - 0.71414 * (*cr - 0x80)));
-		float blue = MAX(0.0, MIN(255.0, *y + 1.77200 * (*cb - 0x80)));
+		for (NSUInteger sampleY = 0; sampleY < totalAverageSamples; sampleY++) {
+			for (NSUInteger sampleX = 0; sampleX < totalAverageSamples; sampleX++) {
+				CGPoint point = [value pointValue];
+				CGPoint samplePoint = CGPointMake(point.x + (partAverageSampleSize * sampleX) - halfAverageSampleSize,
+												  point.y + (partAverageSampleSize * sampleY) - halfAverageSampleSize);
+				
+				CGPoint translatedPoint = CGPointMake(MAX(self.letterboxInsets.left, MIN(1.0 - self.letterboxInsets.right, samplePoint.x)) * self.captureSize.width,
+											  MAX(self.letterboxInsets.top, MIN(1.0 - self.letterboxInsets.bottom, samplePoint.y)) * self.captureSize.height);
+				
+				// Find all components
+				uint8_t *y = baseAddress + yOffset + ((int)translatedPoint.y * yPitch) + (int)translatedPoint.x;
+				uint8_t *cb = baseAddress + cbCrOffset + (((int)translatedPoint.y >> 1) * cbCrPitch) + ((int)translatedPoint.x & ~1);
+				uint8_t *cr = baseAddress + cbCrOffset + (((int)translatedPoint.y >> 1) * cbCrPitch) + ((int)translatedPoint.x | 1);
+				
+				// Convert to RGB
+				red += MAX(0.0, MIN(255.0, *y + 1.40200 * (*cr - 0x80)));
+				green += MAX(0.0, MIN(255.0, *y - 0.34414 * (*cb - 0x80) - 0.71414 * (*cr - 0x80)));
+				blue += MAX(0.0, MIN(255.0, *y + 1.77200 * (*cb - 0x80)));
+			}
+		}
 		
 		// Add finished color to sample array
-		[colors addObject:[NSColor colorWithDeviceRed:red/255.0 green:green/255.0 blue:blue/255.0 alpha:1.0]];
+		[colors addObject:[NSColor colorWithDeviceRed:red/(totalAverageSamples*totalAverageSamples)/255.0
+												green:green/(totalAverageSamples*totalAverageSamples)/255.0
+												 blue:blue/(totalAverageSamples*totalAverageSamples)/255.0
+												alpha:1.0]];
     }
 	
 	CVPixelBufferUnlockBaseAddress(imageBuffer, 0);

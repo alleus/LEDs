@@ -63,6 +63,8 @@
 	self.screenSampler.displayIndex = [userDefaults integerForKey:@"displayIndex"];
 	self.screenSampler.captureWidth = [userDefaults doubleForKey:@"captureWidth"];
 	self.screenSampler.capturePoints = [NSUnarchiver unarchiveObjectWithData:[userDefaults objectForKey:@"capturePoints"]];
+	self.screenSampler.averageSamples = [userDefaults integerForKey:@"averageSamples"];
+	self.screenSampler.averageSampleSize = [userDefaults doubleForKey:@"averageSampleSize"];
 	
 	[self.screenSampler setup];
 	
@@ -77,6 +79,8 @@
 		[userDefaults setBool:YES forKey:@"enablePreviewLayer"];
 		[userDefaults setInteger:0 forKey:@"displayIndex"];
 		[userDefaults setDouble:200.0 forKey:@"captureWidth"];
+		[userDefaults setInteger:0 forKey:@"averageSamples"];
+		[userDefaults setDouble:0.01 forKey:@"averageSampleSize"];
 		
 		NSArray *capturePoints = capturePoints = @[
 			// Top

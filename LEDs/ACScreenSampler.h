@@ -17,6 +17,8 @@
 @property (nonatomic) BOOL enablePreviewLayer;
 @property (nonatomic) NSUInteger displayIndex;
 @property (nonatomic) CGFloat captureWidth;
+@property (nonatomic) NSUInteger averageSamples;
+@property (nonatomic) CGFloat averageSampleSize;
 @property (nonatomic) NSEdgeInsets letterboxInsets;
 @property (nonatomic, strong) NSArray *capturePoints;
 @property (nonatomic, readonly) NSArray *letterboxCompensatedCapturePoints;
